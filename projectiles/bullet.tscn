@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbcq31iqrr4fs"]
+
+[ext_resource type="Script" path="res://projectiles/bullet.gd" id="1_34cfp"]
+[ext_resource type="Script" path="res://common/attack.gd" id="2_yqrlj"]
+[ext_resource type="PackedScene" uid="uid://ba8aahs0vbyvq" path="res://common/hit_box_component.tscn" id="3_kdxa7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r0mjh"]
+radius = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ntyq7"]
+radius = 0.2
+
+[node name="Bullet" type="CharacterBody3D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_34cfp")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.1
+
+[node name="Attack" type="Node" parent="."]
+script = ExtResource("2_yqrlj")
+attack_damage = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_r0mjh")
+
+[node name="HitBoxComponent" parent="." node_paths=PackedStringArray("attack") instance=ExtResource("3_kdxa7")]
+collision_mask = 36
+attack = NodePath("../Attack")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBoxComponent"]
+shape = SubResource("SphereShape3D_ntyq7")

@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://bddytl0nmaoi1"]
+
+[ext_resource type="Material" uid="uid://creya25bbrv2r" path="res://aseprite/grid/grid.tres" id="1_4o3x1"]
+[ext_resource type="PackedScene" uid="uid://ce52bogh6w6r0" path="res://player/player.tscn" id="1_53ykx"]
+[ext_resource type="PackedScene" uid="uid://d28rbdi1jpvcu" path="res://environment/vent.tscn" id="1_h4ho6"]
+[ext_resource type="PackedScene" uid="uid://5amyacfng6v0" path="res://enemies/enemy.tscn" id="2_bpplo"]
+[ext_resource type="Texture2D" uid="uid://d054bt2lcm4yg" path="res://aseprite/grid/grid.png" id="2_qsswm"]
+[ext_resource type="PackedScene" uid="uid://bx1pttjpi3n1h" path="res://enemies/Imp/Imp.tscn" id="6_04crr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1c3ub"]
+albedo_texture = ExtResource("2_qsswm")
+uv1_scale = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[node name="DebugDemo1" type="Node3D"]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="RoofCSGCombiner" type="CSGCombiner3D" parent="Environment"]
+use_collision = true
+collision_layer = 16
+collision_mask = 0
+
+[node name="Roof" type="CSGBox3D" parent="Environment/RoofCSGCombiner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08384, -0.0165501, 0.243432)
+size = Vector3(53.9401, 1, 55.507)
+material = ExtResource("1_4o3x1")
+
+[node name="Helipad" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08384, 4.96086, -0.243432)
+size = Vector3(20, 1, 20)
+material = ExtResource("1_4o3x1")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof/Helipad"]
+transform = Transform3D(1, 0, 0, 0, 0.897412, 0.441193, 0, -0.441193, 0.897412, -11.0976, -2.16976, -4.18897)
+size = Vector3(2.13135, 1, 10.2676)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof/Helipad"]
+transform = Transform3D(-1, -3.85703e-08, 7.84543e-08, 0, 0.897412, 0.441193, -8.74228e-08, 0.441193, -0.897412, 11.071, -2.16976, 0.811028)
+size = Vector3(2.13135, 1, 10.2676)
+
+[node name="Vent" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.70175, 1.41268, -7.86789)
+size = Vector3(2.23206, 2.0676, 6.71973)
+material = SubResource("StandardMaterial3D_1c3ub")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof/Vent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0890913)
+operation = 2
+size = Vector3(1.805, 1.68, 6.971)
+
+[node name="Vent" parent="Environment/RoofCSGCombiner/Roof/Vent" instance=ExtResource("1_h4ho6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00464082, 3.28454)
+
+[node name="RoofRoom" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.05737, 2.10696, 3.58234)
+size = Vector3(17.1395, 3.21393, 19.8863)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof/RoofRoom"]
+operation = 2
+size = Vector3(16.79, 2.794, 19.511)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/RoofCSGCombiner/Roof/RoofRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.48024, -0.62304, 8.6053)
+operation = 2
+size = Vector3(1, 1.64282, 1.83936)
+
+[node name="3rdFloorCSGCombiner" type="CSGCombiner3D" parent="Environment"]
+
+[node name="3rd Floor" type="CSGBox3D" parent="Environment/3rdFloorCSGCombiner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08384, -4.85671, 0.243432)
+size = Vector3(53.9401, 1, 55.507)
+material = ExtResource("1_4o3x1")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment/3rdFloorCSGCombiner/3rd Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.203962, 0)
+operation = 2
+size = Vector3(1, 2.06934, 1)
+
+[node name="Player" parent="." instance=ExtResource("1_53ykx")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.08255, 7.55608)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.38128, 0.92446, 0, -0.92446, 0.38128, 0, 4.8124, 0)
+
+[node name="Enemy" parent="." instance=ExtResource("2_bpplo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0130897, 1.24782, -3.57117)
+
+[node name="Imp" parent="." instance=ExtResource("6_04crr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3468, 0.48345, 1.08304)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://d28rbdi1jpvcu"]
+
+[ext_resource type="Texture2D" uid="uid://ra7rl8xhwwle" path="res://aseprite/vent/vent.png" id="1_4b0a7"]
+[ext_resource type="Script" path="res://environment/vent.gd" id="1_agduv"]
+[ext_resource type="Script" path="res://common/health_component.gd" id="3_vpm7n"]
+[ext_resource type="Script" path="res://common/hurt_box_component.gd" id="4_i3tbi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hulu3"]
+size = Vector3(1.885, 1.785, 0.435)
+
+[node name="Vent" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.873103, 0)
+script = ExtResource("1_agduv")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(5.925, 0, 0, 0, 5.925, 0, 0, 0, 5.925, 0, 0, 0)
+texture = ExtResource("1_4b0a7")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_vpm7n")
+max_health = 1.0
+
+[node name="HurtBoxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4_i3tbi")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent"]
+shape = SubResource("BoxShape3D_hulu3")
+
+[connection signal="health_depleted" from="HealthComponent" to="." method="_on_health_component_health_depleted"]

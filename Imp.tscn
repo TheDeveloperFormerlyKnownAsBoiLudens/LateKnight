@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl0ymrbbip87t"]
+
+[ext_resource type="Texture2D" uid="uid://dup6l6rfkj5vc" path="res://undefined - Imgur.png" id="1_6pw45"]
+[ext_resource type="Script" path="res://Imp.gd" id="2_j5s3l"]
+
+[node name="Imp" type="Sprite3D" groups=["Imps"]]
+billboard = 1
+texture = ExtResource("1_6pw45")
+hframes = 4
+vframes = 5
+script = ExtResource("2_j5s3l")

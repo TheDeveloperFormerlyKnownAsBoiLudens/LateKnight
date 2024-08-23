@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjb7uu16341yq"]
+
+[ext_resource type="Script" path="res://common/health_component.gd" id="1_kg8mj"]
+
+[node name="HealthComponent" type="Node"]
+script = ExtResource("1_kg8mj")
+max_health = 1.0
+
+[node name="HealRechargeTimer" type="Timer" parent="."]

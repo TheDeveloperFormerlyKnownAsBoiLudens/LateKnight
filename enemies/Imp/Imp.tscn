@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://bx1pttjpi3n1h"]
+
+[ext_resource type="Script" path="res://enemies/Imp/imp.gd" id="1_gvlqc"]
+[ext_resource type="Texture2D" uid="uid://dup6l6rfkj5vc" path="res://enemies/Imp/undefined - Imgur.png" id="1_yisia"]
+[ext_resource type="Script" path="res://common/health_component.gd" id="4_melmg"]
+[ext_resource type="Script" path="res://common/hurt_box_component.gd" id="5_0eh24"]
+[ext_resource type="Script" path="res://enemies/Imp/states/idle.gd" id="5_bovug"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ygp1g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o7hiu"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wx05l"]
+points = PackedVector3Array(0, 0, 0, 5, 2, 5, -5, 2, 5, -5, -2, 5, 5, -2, 5)
+
+[node name="Imp" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_gvlqc")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(3.115, 0, 0, 0, 3.115, 0, 0, 0, 3.115, 0, 1, 0)
+billboard = 1
+texture = ExtResource("1_yisia")
+hframes = 4
+vframes = 5
+frame = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ygp1g")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_melmg")
+max_health = 1.0
+
+[node name="HurtBoxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.876465, 0)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("5_0eh24")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent"]
+shape = SubResource("BoxShape3D_o7hiu")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5632, 1.04532)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("ConvexPolygonShape3D_wx05l")
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource("5_bovug")
+
+[connection signal="health_depleted" from="HealthComponent" to="." method="_on_health_component_health_depleted"]
